@@ -1,0 +1,11 @@
+/.vs
+/.vscode
+/Logs
+/obj
+/Packages
+/UserSettings
+/ProjectSettings
+/build
+/Library
+/Temp
+.vsconfi
