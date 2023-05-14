@@ -40,6 +40,8 @@
      <Compile Include="Assets\Undead Survivor\Codes\Reposition.cs" />
      <Compile Include="Assets\Undead Survivor\Codes\GameManager.cs" />
      <Compile Include="Assets\Undead Survivor\Codes\Enemy.cs" />
+     <Compile Include="Assets\Undead Survivor\Codes\PoolManager.cs" />
+     <Compile Include="Assets\Undead Survivor\Codes\Spawner.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
