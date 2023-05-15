@@ -29,7 +29,7 @@ public class Spawner : MonoBehaviour
 
   void Spawn()
   {
-    GameObject enemy = GameManager.instance.pool.Get(0);
+    GameObject enemy = GameManager.instance.pool.Get();
     // spawnPoint에서 난수를 0부터 하지 않는이유는 0은 자기자신(부모)이기 때문
     enemy.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position;
 
