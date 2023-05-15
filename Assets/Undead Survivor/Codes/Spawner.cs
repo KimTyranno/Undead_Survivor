@@ -6,6 +6,8 @@ public class Spawner : MonoBehaviour
 {
 
   public Transform[] spawnPoint;
+  public SpawnData[] spawnData;
+  int level;
   float timer;
 
   void Awake()
@@ -17,7 +19,8 @@ public class Spawner : MonoBehaviour
   void Update()
   {
     timer += Time.deltaTime;
-    if (timer > 0.2f)
+    level = Mathf.Min(Mathf.FloorToInt(GameManager.instance.gameTime / 10f), spawnData.Length - 1);
+    if (timer > spawnData[level].spawnTime)
     {
       Spawn();
       timer = 0;
@@ -26,8 +29,19 @@ public class Spawner : MonoBehaviour
 
   void Spawn()
   {
-    GameObject enemy = GameManager.instance.pool.Get(Random.Range(0, 2));
+    GameObject enemy = GameManager.instance.pool.Get(0);
     // spawnPoint에서 난수를 0부터 하지 않는이유는 0은 자기자신(부모)이기 때문
     enemy.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position;
+
+    enemy.GetComponent<Enemy>().Init(spawnData[level]);
   }
+}
+// 직렬화
+[System.Serializable]
+public class SpawnData
+{
+  public float spawnTime;
+  public int spriteType;
+  public int health;
+  public float speed;
 }

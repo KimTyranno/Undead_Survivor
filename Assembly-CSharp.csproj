@@ -37,11 +37,11 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Undead Survivor\Codes\Player.cs" />
-     <Compile Include="Assets\Undead Survivor\Codes\Reposition.cs" />
-     <Compile Include="Assets\Undead Survivor\Codes\GameManager.cs" />
-     <Compile Include="Assets\Undead Survivor\Codes\Enemy.cs" />
      <Compile Include="Assets\Undead Survivor\Codes\PoolManager.cs" />
+     <Compile Include="Assets\Undead Survivor\Codes\Enemy.cs" />
+     <Compile Include="Assets\Undead Survivor\Codes\Reposition.cs" />
      <Compile Include="Assets\Undead Survivor\Codes\Spawner.cs" />
+     <Compile Include="Assets\Undead Survivor\Codes\GameManager.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -732,6 +732,12 @@
     <Reference Include="Unity.ShaderGraph.Editor">
         <HintPath>D:\Unity_Projects\Undead Survivor\Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Cinemachine">
+        <HintPath>D:\Unity_Projects\Undead Survivor\Library\ScriptAssemblies\Cinemachine.dll</HintPath>
+    </Reference>
+    <Reference Include="com.unity.cinemachine.editor">
+        <HintPath>D:\Unity_Projects\Undead Survivor\Library\ScriptAssemblies\com.unity.cinemachine.editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
         <HintPath>D:\Unity_Projects\Undead Survivor\Library\ScriptAssemblies\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
     </Reference>
@@ -845,12 +851,6 @@
     </Reference>
     <Reference Include="Unity.VisualScripting.State">
         <HintPath>D:\Unity_Projects\Undead Survivor\Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
-    </Reference>
-    <Reference Include="com.unity.cinemachine.editor">
-        <HintPath>D:\Unity_Projects\Undead Survivor\Library\ScriptAssemblies\com.unity.cinemachine.editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Cinemachine">
-        <HintPath>D:\Unity_Projects\Undead Survivor\Library\ScriptAssemblies\Cinemachine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
