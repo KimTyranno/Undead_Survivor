@@ -9,7 +9,14 @@ public class Weapon : MonoBehaviour
   public float damage;
   public int count;
   public float speed;
+  float timer;
+  Player player;
 
+  void Awake()
+  {
+    // GetComponentInParent로 부모의 컴포넌트를 가져올 수 있다.
+    player = GetComponentInParent<Player>();
+  }
   void Start()
   {
     Init();
@@ -23,10 +30,16 @@ public class Weapon : MonoBehaviour
         transform.Rotate(Vector3.back * speed * Time.deltaTime);
         break;
       default:
+        timer += Time.deltaTime;
+        if (timer > speed)
+        {
+          timer = 0f;
+          Fire();
+        }
         break;
     }
 
-    if (Input.GetButtonDown("Jump")) LevelUp(20, 5);
+    if (Input.GetButtonDown("Jump")) LevelUp(10, 1);
   }
 
   public void LevelUp(float damage, int count)
@@ -44,6 +57,7 @@ public class Weapon : MonoBehaviour
         Batch();
         break;
       default:
+        speed = 0.3f;
         break;
     }
   }
@@ -78,7 +92,25 @@ public class Weapon : MonoBehaviour
       bullet.Rotate(rotVec);
       // z축을 변경후 자기자신의 위쪽으로 이동 (플레이어 주변에서 돌게하기 위함임, 1.2f는 플레이어와의 거리임)
       bullet.Translate(bullet.up * 1.2f, Space.World);
-      bullet.GetComponent<Bullet>().Init(damage, -1); // -1은 무한으로 관통하기 위함
+      bullet.GetComponent<Bullet>().Init(damage, -1, Vector3.zero); // -1은 무한으로 관통하기 위함
     }
+  }
+
+  void Fire()
+  {
+    // 대상이 있는지 확인
+    if (!player.scanner.nearestTarget) return;
+
+    // 타겟의 위치
+    Vector3 targetPos = player.scanner.nearestTarget.position;
+    // 타겟의 방향 (크기가 포함된 방향)
+    Vector3 dir = targetPos - transform.position;
+    dir = dir.normalized;
+
+    Transform bullet = GameManager.instance.pool.Get(prefabId).transform;
+    bullet.position = transform.position;
+    // TODO: FromToRotation이란 지정된 축을 중심으로 목표를 향해 회전하는 함수
+    bullet.rotation = Quaternion.FromToRotation(Vector3.up, dir);
+    bullet.GetComponent<Bullet>().Init(damage, count, dir);
   }
 }
