@@ -4461,6 +4461,10 @@ MonoBehaviour:
   pool: {fileID: 1333457883}
   gameTime: 0
   maxGameTime: 20
+  level: 0
+  kill: 0
+  exp: 0
+  nextExp: 0100000003000000060000006400000096000000d20000001801000068010000c201000058020000
 --- !u!4 &93967713
 Transform:
   m_ObjectHideFlags: 0
@@ -18012,6 +18016,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputVec: {x: 0, y: 0}
+  scanner: {fileID: 0}
   speed: 3
 --- !u!70 &1262332728
 CapsuleCollider2D:
@@ -18697,7 +18702,7 @@ MonoBehaviour:
   id: 1
   prefabId: 2
   damage: 3
-  count: 0
+  count: 1
   speed: 0
 --- !u!1 &1890306887
 GameObject:

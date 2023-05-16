@@ -13,18 +13,23 @@ public class Enemy : MonoBehaviour
   bool isLive;
 
   Rigidbody2D rigid;
+  Collider2D coll;
   Animator anim;
   SpriteRenderer spriter;
+  WaitForFixedUpdate wait;
   void Awake()
   {
     rigid = GetComponent<Rigidbody2D>();
+    coll = GetComponent<Collider2D>();
     anim = GetComponent<Animator>();
     spriter = GetComponent<SpriteRenderer>();
+    wait = new WaitForFixedUpdate();
   }
 
   void FixedUpdate()
   {
-    if (!isLive) return;
+    // GetCurrentAnimatorStateInfo란 현재상태의 정보를 가져오는 함수
+    if (!isLive || anim.GetCurrentAnimatorStateInfo(0).IsName("Hit")) return;
     // 몬스터가 가야할 방향
     Vector2 dirVec = target.position - rigid.position;
     // 몬스터가 가야할 위치 (즉, 플레이어가 키를 입력한 값을 더한 이동임)
@@ -45,6 +50,10 @@ public class Enemy : MonoBehaviour
   {
     target = GameManager.instance.player.GetComponent<Rigidbody2D>();
     isLive = true;
+    coll.enabled = true;
+    rigid.simulated = true;
+    spriter.sortingOrder = 2;
+    anim.SetBool("Dead", false);
     health = maxHealth;
   }
 
@@ -59,21 +68,45 @@ public class Enemy : MonoBehaviour
   void OnTriggerEnter2D(Collider2D other)
   {
     // 충돌한게 총알이 아니면 무시
-    if (!other.CompareTag("Bullet")) return;
+    if (!other.CompareTag("Bullet") || !isLive) return;
 
     // 데미지 들어감
     health -= other.GetComponent<Bullet>().damage;
 
+    // 넉백
+    StartCoroutine(KnockBack());
+
     if (health > 0)
     {
-
+      // 애니메이터의 상태를 변경
+      anim.SetTrigger("Hit");
     }
     else
     {
-      Dead();
+      isLive = false;
+      // Collider도 비활성화
+      coll.enabled = false;
+      // RigidBody도 물리적 비활성화
+      rigid.simulated = false;
+      // 다른 오브젝트를 가리지 않게 sort를 한단계 내림
+      spriter.sortingOrder = 1;
+      // 죽는 애니메이션
+      anim.SetBool("Dead", true);
+      GameManager.instance.kill++;
+      GameManager.instance.GetExp();
     }
   }
 
+  IEnumerator KnockBack()
+  {
+    //  yield return null; // 1프레임 쉬기
+    //  yield return new WaitForSeconds(2f); // 2초 쉬기
+    yield return wait; // 다음 하나의 물리프레임 딜레이
+    Vector3 playerPos = GameManager.instance.player.transform.position;
+    // 플레이어 기준의 반대방향?
+    Vector3 dirVec = transform.position - playerPos;
+    rigid.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
+  }
   void Dead()
   {
     gameObject.SetActive(false);
