@@ -45,6 +45,8 @@
      <Compile Include="Assets\Undead Survivor\Codes\Bullet.cs" />
      <Compile Include="Assets\Undead Survivor\Codes\Weapon.cs" />
      <Compile Include="Assets\Undead Survivor\Codes\Scanner.cs" />
+     <Compile Include="Assets\Undead Survivor\Codes\HUD.cs" />
+     <Compile Include="Assets\Undead Survivor\Codes\Follow.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

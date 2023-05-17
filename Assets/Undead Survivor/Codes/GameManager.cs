@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
   public float maxGameTime = 2 * 10f;
 
   [Header("# Player Info")]
+  public int health;
+  public int maxHealth = 100;
   public int level;
   public int kill;
   public int exp;
@@ -24,6 +26,11 @@ public class GameManager : MonoBehaviour
     instance = this;
   }
 
+  void Start()
+  {
+    // 플레이어의 초기체력 설정
+    health = maxHealth;
+  }
   void Update()
   {
     gameTime += Time.deltaTime;
