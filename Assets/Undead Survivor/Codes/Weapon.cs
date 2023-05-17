@@ -91,7 +91,7 @@ public class Weapon : MonoBehaviour
       Vector3 rotVec = Vector3.forward * 360 * i / count;
       bullet.Rotate(rotVec);
       // z축을 변경후 자기자신의 위쪽으로 이동 (플레이어 주변에서 돌게하기 위함임, 1.2f는 플레이어와의 거리임)
-      bullet.Translate(bullet.up * 1.2f, Space.World);
+      bullet.Translate(bullet.up * 1.5f, Space.World);
       bullet.GetComponent<Bullet>().Init(damage, -1, Vector3.zero); // -1은 무한으로 관통하기 위함
     }
   }
