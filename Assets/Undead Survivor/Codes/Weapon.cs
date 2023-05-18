@@ -15,12 +15,12 @@ public class Weapon : MonoBehaviour
   void Awake()
   {
     // GetComponentInParent로 부모의 컴포넌트를 가져올 수 있다.
-    player = GetComponentInParent<Player>();
+    // player = GetComponentInParent<Player>();
+
+    // Weapon이 더이상 게임이 시작하자마자 player의 자식으로 존재하지 않기때문에 GameManager에서 초기화하게 변경
+    player = GameManager.instance.player;
   }
-  void Start()
-  {
-    Init();
-  }
+
   // Update is called once per frame
   void Update()
   {
@@ -46,10 +46,35 @@ public class Weapon : MonoBehaviour
   {
     this.damage = damage;
     this.count += count;
+
     if (id == 0) Batch();
+
+    // 레벨업한 무기에 맞게 기어를 다시 적용
+    player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver);
   }
-  public void Init()
+  public void Init(ItemData data)
   {
+    // 기본설정
+    name = "Weapon " + data.itemId;
+    // 플레이어의 자식오브젝트로 생성시키기 위함
+    transform.parent = player.transform;
+    // localPosition(지역위치) 사용하여 플레리어안에서 위치를 초기화
+    transform.localPosition = Vector3.zero;
+
+    // 프로퍼티 설정
+    id = data.itemId;
+    damage = data.baseDamage;
+    count = data.baseCount;
+
+    for (int i = 0; i < GameManager.instance.pool.prefabs.Length; i++)
+    {
+      // prefabId는 풀매니저에서 찾아서 초기화시킴 (프리팹아이디는 풀매니저의 인덱스와 동일)
+      if (data.projectile == GameManager.instance.pool.prefabs[i])
+      {
+        prefabId = i;
+        break;
+      }
+    }
     switch (id)
     {
       case 0:
@@ -60,6 +85,10 @@ public class Weapon : MonoBehaviour
         speed = 0.3f;
         break;
     }
+
+    // 특정함수 호출을 모든자식에게 방송하는 함수 (player 오브젝트가 가지고 있는 모든 gear는 ApplyGear()를 실행하게됨)
+    // 두번째인자는 Gear가 없을때 에러나 나는거 대응
+    player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver);
   }
 
   void Batch()
