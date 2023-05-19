@@ -12,6 +12,8 @@ public class Item : MonoBehaviour
 
   Image icon;
   Text textLevel;
+  Text textName;
+  Text textDesc;
 
   void Awake()
   {
@@ -20,13 +22,35 @@ public class Item : MonoBehaviour
     icon.sprite = data.itemIcon;
 
     Text[] texts = GetComponentsInChildren<Text>();
-    // Text는 하나밖에 없어서 [0]으로 씀
+    // texts[0] texts[1] texts[2]의 기준은 인스펙터상의 itemGroup/item 아래에 있는 text들의 순서이다.
     textLevel = texts[0];
+    textName = texts[1];
+    textDesc = texts[2];
+
+    // 아이템이름은 바뀌지 않으므로 여기서 바로 초기화시킴
+    textName.text = data.itemName;
   }
 
-  void LateUpdate()
+  // 활성화되면 아이템 설명을 표시
+  void OnEnable()
   {
-    textLevel.text = "Lv." + level;
+    textLevel.text = "Lv." + (level + 1);
+
+    switch (data.itemType)
+    {
+      case ItemData.ItemType.Melee:
+      case ItemData.ItemType.Range:
+        textDesc.text = string.Format(data.itemDesc, data.damages[level] * 100, data.counts[level]);
+        break;
+      case ItemData.ItemType.Glove:
+      case ItemData.ItemType.Shoe:
+        textDesc.text = string.Format(data.itemDesc, data.damages[level] * 100);
+        break;
+      default:
+        textDesc.text = string.Format(data.itemDesc);
+        break;
+
+    }
   }
 
   public void onClick()

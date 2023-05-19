@@ -14,6 +14,8 @@ public class ItemData : ScriptableObject
   public ItemType itemType;
   public int itemId;
   public string itemName;
+  // 인스펙터에서 텍스트를 여러줄 넣을 수 있게 해주는속성
+  [TextArea]
   public string itemDesc;
   public Sprite itemIcon;
 

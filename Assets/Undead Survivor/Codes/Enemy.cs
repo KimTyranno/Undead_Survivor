@@ -28,6 +28,8 @@ public class Enemy : MonoBehaviour
 
   void FixedUpdate()
   {
+    if (!GameManager.instance.isLive) return;
+
     // GetCurrentAnimatorStateInfo란 현재상태의 정보를 가져오는 함수
     if (!isLive || anim.GetCurrentAnimatorStateInfo(0).IsName("Hit")) return;
     // 몬스터가 가야할 방향
@@ -41,6 +43,7 @@ public class Enemy : MonoBehaviour
 
   void LateUpdate()
   {
+    if (!GameManager.instance.isLive) return;
     if (!isLive) return;
     spriter.flipX = target.position.x < rigid.position.x;
   }

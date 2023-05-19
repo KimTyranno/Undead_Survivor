@@ -21,15 +21,11 @@ public class Player : MonoBehaviour
     // 인자값에 true를 넣으면 비활성화 시킨 자식오브젝트도 GetComponent한다
     hands = GetComponentsInChildren<Hand>(true);
   }
-  // Start is called before the first frame update
-  void Start()
-  {
-
-  }
-
 
   void FixedUpdate()
   {
+    if (!GameManager.instance.isLive) return;
+
     // 이동방식 3가지
     // 1. 힘 주기
     // rigid.AddForce(inputVec);
@@ -50,6 +46,7 @@ public class Player : MonoBehaviour
 
   void LateUpdate()
   {
+    if (!GameManager.instance.isLive) return;
     // magnitude는 어떤방향을 눌렀든지 그 크기만 가져옴
     anim.SetFloat("Speed", inputVec.magnitude);
     if (inputVec.x != 0)
