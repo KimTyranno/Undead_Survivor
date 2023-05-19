@@ -86,6 +86,11 @@ public class Weapon : MonoBehaviour
         break;
     }
 
+    // Hand 설정
+    Hand hand = player.hands[(int)data.itemType];
+    hand.spriter.sprite = data.hand;
+    hand.gameObject.SetActive(true);
+
     // 특정함수 호출을 모든자식에게 방송하는 함수 (player 오브젝트가 가지고 있는 모든 gear는 ApplyGear()를 실행하게됨)
     // 두번째인자는 Gear가 없을때 에러나 나는거 대응
     player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver);

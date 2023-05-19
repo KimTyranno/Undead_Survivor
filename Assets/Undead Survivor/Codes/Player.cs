@@ -6,6 +6,8 @@ public class Player : MonoBehaviour
 {
   public Vector2 inputVec;
   public Scanner scanner;
+
+  public Hand[] hands;
   Rigidbody2D rigid;
   SpriteRenderer spriter;
   Animator anim;
@@ -16,6 +18,8 @@ public class Player : MonoBehaviour
     spriter = GetComponent<SpriteRenderer>();
     anim = GetComponent<Animator>();
     scanner = GetComponent<Scanner>();
+    // 인자값에 true를 넣으면 비활성화 시킨 자식오브젝트도 GetComponent한다
+    hands = GetComponentsInChildren<Hand>(true);
   }
   // Start is called before the first frame update
   void Start()

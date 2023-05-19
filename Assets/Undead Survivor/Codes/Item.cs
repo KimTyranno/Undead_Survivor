@@ -64,6 +64,7 @@ public class Item : MonoBehaviour
           gear = newGear.AddComponent<Gear>();
           gear.Init(data);
         }
+
         else
         {
           float nextRate = data.damages[level];
