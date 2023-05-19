@@ -30,6 +30,17 @@ public class Hand : MonoBehaviour
       spriter.flipY = isReverse;
       spriter.sortingOrder = isReverse ? 4 : 6;
     }
+    // 총구가 적을 바라보게 하려는경우 아래의 코드
+    // else if (GameManager.instance.player.scanner.nearestTarget)
+    // {
+    //   Vector3 targetPos = GameManager.instance.player.scanner.nearestTarget.position;
+    //   Vector3 dir = targetPos - transform.position;
+    //   transform.localRotation = Quaternion.FromToRotation(Vector3.right, dir);
+
+    //   bool isRotA = transform.localRotation.eulerAngles.z > 90 && transform.localRotation.eulerAngles.z < 270;
+    //   bool isRotB = transform.localRotation.eulerAngles.z < -90 && transform.localRotation.eulerAngles.z > -270;
+    //   spriter.flipY = isRotA || isRotB;
+    // }
     else
     { // 원거리무기
       transform.localPosition = isReverse ? rightPosReverse : rightPos;
