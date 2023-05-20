@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class GameManager : MonoBehaviour
   public Player player;
   public PoolManager pool;
   public LevelUp uiLevelUp;
+  public Result uiResult;
+  public GameObject enemyCleaner;
 
   [Header("# Game Control")]
   public float gameTime;
@@ -16,8 +19,8 @@ public class GameManager : MonoBehaviour
   public bool isLive;
 
   [Header("# Player Info")]
-  public int health;
-  public int maxHealth = 100;
+  public float health;
+  public float maxHealth = 100;
   public int level;
   public int kill;
   public int exp;
@@ -29,13 +32,52 @@ public class GameManager : MonoBehaviour
     instance = this;
   }
 
-  void Start()
+  public void GameStart()
   {
     // 플레이어의 초기체력 설정
     health = maxHealth;
 
     // 기본무기 지급 (아직 캐릭터 선택이 없으므로 임시)
     uiLevelUp.Select(0);
+
+    Resume();
+  }
+
+  public void GameOver()
+  {
+    StartCoroutine(GameOverRoutine());
+  }
+
+  IEnumerator GameOverRoutine()
+  {
+    isLive = false;
+    yield return new WaitForSeconds(0.5f);
+
+    // 아래의 코드는 WaitForSeconds함수에 의해 0.5초후 실행됨 (묘비 애니메이션을 위함)
+    uiResult.gameObject.SetActive(true);
+    uiResult.Lose();
+    Stop();
+  }
+  public void GameVictory()
+  {
+    StartCoroutine(GameVictoryRoutine());
+  }
+
+  IEnumerator GameVictoryRoutine()
+  {
+    isLive = false;
+    // 모든 몬스터를 처리함
+    enemyCleaner.SetActive(true);
+    yield return new WaitForSeconds(0.5f);
+
+    // 아래의 코드는 WaitForSeconds함수에 의해 0.5초후 실행됨
+    uiResult.gameObject.SetActive(true);
+    uiResult.Win();
+    Stop();
+  }
+  public void GameRetry()
+  {
+    SceneManager.LoadScene(0);
   }
   void Update()
   {
@@ -46,11 +88,15 @@ public class GameManager : MonoBehaviour
     if (gameTime > maxGameTime)
     {
       gameTime = maxGameTime;
+      GameVictory();
     }
   }
 
   public void GetExp()
   {
+    // enemyCleaner때 경험치 획득을 막기위함
+    if (!isLive) return;
+
     exp++;
     // 레벨업에 필요한 경험치에 도달하면 레벨업, 최대로 설정한 레벨에 도달해도 레벨업은 하지만, 이후부터의 경험치는 계속 최대설정레벨의 경험치가됨
     if (exp == nextExp[Mathf.Min(level, nextExp.Length - 1)])

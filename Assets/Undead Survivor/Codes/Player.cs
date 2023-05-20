@@ -55,4 +55,25 @@ public class Player : MonoBehaviour
       spriter.flipX = inputVec.x < 0;
     }
   }
+
+  // 플레이어 피격
+  void OnCollisionStay2D(Collision2D other)
+  {
+    if (!GameManager.instance.isLive) return;
+
+    GameManager.instance.health -= Time.deltaTime * 10;
+
+    // 플레이어 사망시
+    if (GameManager.instance.health <= 0)
+    {
+      // 플레이어의 자식으로 있는 Shadow와 Area는 제외 (그래서 int i=2로했음)
+      for (int i = 2; i < transform.childCount; i++)
+      {
+        transform.GetChild(i).gameObject.SetActive(false);
+      }
+
+      anim.SetTrigger("Dead");
+      GameManager.instance.GameOver();
+    }
+  }
 }
