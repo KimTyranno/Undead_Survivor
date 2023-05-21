@@ -71,7 +71,8 @@ public class AchiveManager : MonoBehaviour
     switch (achive)
     {
       case Achive.UnlockPotato:
-        isAchive = GameManager.instance.kill >= 10;
+        // 제한시간까지 생존했을때 enemyCleaner로 몬스터를 처치하기때문에, 이 경우에는 감자농부의 해금을 막기위함
+        if (GameManager.instance.isLive) isAchive = GameManager.instance.kill >= 10;
         break;
       case Achive.UnlockBean:
         isAchive = GameManager.instance.gameTime == GameManager.instance.maxGameTime;
