@@ -53,6 +53,7 @@
      <Compile Include="Assets\Undead Survivor\Codes\GameManager.cs" />
      <Compile Include="Assets\Undead Survivor\Codes\Gear.cs" />
      <Compile Include="Assets\Undead Survivor\Codes\Result.cs" />
+     <Compile Include="Assets\Undead Survivor\Codes\Character.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

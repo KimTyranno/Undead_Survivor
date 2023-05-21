@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
   public bool isLive;
 
   [Header("# Player Info")]
+  public int playerId;
   public float health;
   public float maxHealth = 100;
   public int level;
@@ -32,13 +33,17 @@ public class GameManager : MonoBehaviour
     instance = this;
   }
 
-  public void GameStart()
+  public void GameStart(int id)
   {
+    playerId = id;
     // 플레이어의 초기체력 설정
     health = maxHealth;
 
-    // 기본무기 지급 (아직 캐릭터 선택이 없으므로 임시)
-    uiLevelUp.Select(0);
+    // 플레이어를 황성화
+    player.gameObject.SetActive(true);
+
+    // 기본무기 지급 (%2로 한 이유는 무기보다 캐릭터가 많을경우를 대비)
+    uiLevelUp.Select(id % 2);
 
     Resume();
   }

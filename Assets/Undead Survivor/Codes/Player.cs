@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
   public Scanner scanner;
 
   public Hand[] hands;
+  public RuntimeAnimatorController[] animCon;
   Rigidbody2D rigid;
   SpriteRenderer spriter;
   Animator anim;
@@ -20,6 +21,12 @@ public class Player : MonoBehaviour
     scanner = GetComponent<Scanner>();
     // 인자값에 true를 넣으면 비활성화 시킨 자식오브젝트도 GetComponent한다
     hands = GetComponentsInChildren<Hand>(true);
+  }
+
+  void OnEnable()
+  {
+    speed *= Character.Speed;
+    anim.runtimeAnimatorController = animCon[GameManager.instance.playerId];
   }
 
   void FixedUpdate()
