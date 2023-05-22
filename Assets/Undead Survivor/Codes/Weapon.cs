@@ -30,6 +30,9 @@ public class Weapon : MonoBehaviour
     {
       case 0:
         transform.Rotate(Vector3.back * speed * Time.deltaTime);
+
+        // 근접공격시 오디오 (이 위치가 아닌 다른곳에서 해야할듯)
+        // AudioManager.instance.PlaySfx(AudioManager.Sfx.Melee);
         break;
       default:
         timer += Time.deltaTime;
@@ -148,5 +151,8 @@ public class Weapon : MonoBehaviour
     // TODO: FromToRotation이란 지정된 축을 중심으로 목표를 향해 회전하는 함수
     bullet.rotation = Quaternion.FromToRotation(Vector3.up, dir);
     bullet.GetComponent<Bullet>().Init(damage, count, dir);
+
+    // 원거리 공격발사시 오디오
+    AudioManager.instance.PlaySfx(AudioManager.Sfx.Range);
   }
 }

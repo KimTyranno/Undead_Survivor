@@ -83,6 +83,9 @@ public class Enemy : MonoBehaviour
     {
       // 애니메이터의 상태를 변경
       anim.SetTrigger("Hit");
+
+      // 몬스터 피격시 오디오
+      AudioManager.instance.PlaySfx(AudioManager.Sfx.Hit);
     }
     else
     {
@@ -97,6 +100,13 @@ public class Enemy : MonoBehaviour
       anim.SetBool("Dead", true);
       GameManager.instance.kill++;
       GameManager.instance.GetExp();
+
+      // enemyCleaner일때는 사운드를 재생하지 않도록하기 위함
+      if (GameManager.instance.isLive)
+      {
+        // 몬스터 처치시 오디오
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Dead);
+      }
     }
   }
 

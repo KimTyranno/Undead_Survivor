@@ -20,10 +20,7 @@ public class AchiveManager : MonoBehaviour
     wait = new WaitForSecondsRealtime(5);
 
     // 기존데이터가 없으면 초기화한 데이터를 로드함
-    if (!PlayerPrefs.HasKey("MyData"))
-    {
-      Init();
-    }
+    if (!PlayerPrefs.HasKey("MyData")) Init();
   }
 
   void Init()
@@ -88,13 +85,14 @@ public class AchiveManager : MonoBehaviour
         uiNotice.transform.GetChild(i).gameObject.SetActive(isActive);
       }
       StartCoroutine(NoticeRoutine());
-
     }
   }
 
   IEnumerator NoticeRoutine()
   {
     uiNotice.SetActive(true);
+    // 캐릭터 해금시 오디오
+    AudioManager.instance.PlaySfx(AudioManager.Sfx.LevelUp);
     yield return wait;
     uiNotice.SetActive(false);
   }

@@ -18,11 +18,18 @@ public class LevelUp : MonoBehaviour
     Next();
     rect.localScale = Vector3.one;
     GameManager.instance.Stop();
+
+    // 캐릭터가 레벨업하고 아이템선택창이 보일때 오디오
+    AudioManager.instance.PlaySfx(AudioManager.Sfx.LevelUp);
+    AudioManager.instance.EffectBgm(true);
   }
   public void Hide()
   {
     rect.localScale = Vector3.zero;
     GameManager.instance.Resume();
+    // 아이템을 선택하고 꺼질때 오디오
+    AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
+    AudioManager.instance.EffectBgm(false);
   }
 
   public void Select(int i)
