@@ -17,18 +17,20 @@ public class Reposition : MonoBehaviour
 
     Vector3 playerPos = GameManager.instance.player.transform.position;
     Vector3 myPos = transform.position;
-    // 플레이어 위치 - 타일맵위치를 계산하여 거리를 구함
-    float diffX = Mathf.Abs(playerPos.x - myPos.x);
-    float diffY = Mathf.Abs(playerPos.y - myPos.y);
-
-    // 플레이어 방향
-    Vector3 playerDir = GameManager.instance.player.inputVec;
-    float dirX = playerDir.x < 0 ? -1 : 1;
-    float dirY = playerDir.y < 0 ? -1 : 1;
 
     switch (transform.tag)
     {
       case "Ground":
+        // 플레이어 위치 - 타일맵위치를 계산하여 거리를 구함
+        float diffX = playerPos.x - myPos.x;
+        float diffY = playerPos.y - myPos.y;
+
+        // 플레이어 방향
+        float dirX = diffX < 0 ? -1 : 1;
+        float dirY = diffY < 0 ? -1 : 1;
+        diffX = Mathf.Abs(diffX);
+        diffY = Mathf.Abs(diffY);
+
         if (diffX > diffY)
         {
           transform.Translate(Vector3.right * dirX * 40);
@@ -42,7 +44,11 @@ public class Reposition : MonoBehaviour
         // 몬스터가 살아있고, 플레이어와 너무 멀어지면 플레이어가 이동하고 있는쪽 맞은편에서 몬스터가 재배치되도록함
         if (coll.enabled)
         {
-          transform.Translate(playerDir * 20 + new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f), 0f));
+          Vector3 dist = playerPos - myPos;
+
+          // 살짝 랜덤으로 배치되게함
+          Vector3 ran = new Vector3(Random.Range(-3, 3), Random.Range(-3, 3), 0);
+          transform.Translate(ran + dist * 2);
         }
         break;
     }

@@ -19,8 +19,8 @@ public class Bullet : MonoBehaviour
     this.damage = damage;
     this.per = per;
 
-    // 관통이 무한(-1)보다 크면 속도를 적용
-    if (per > -1)
+    // 관통이 0보다 크면 속도를 적용
+    if (per >= 0)
     {
       rigid.velocity = dir * 15f;
     }
@@ -29,15 +29,24 @@ public class Bullet : MonoBehaviour
   void OnTriggerEnter2D(Collider2D other)
   {
     // 적이 아니거나 근접무기면 관통에 대한 로직을 무시함
-    if (!other.CompareTag("Enemy") || per == -1) return;
+    if (!other.CompareTag("Enemy") || per == -100) return;
 
     per--;
-    // 관통값이 줄어들면서 -1이 되면 비활성화 시킴
-    if (per == -1)
+    // 관통값이 줄어들면서 0보다 작아지면 비활성화 시킴
+    if (per < 0)
     {
       // 물리속도도 미리 초기화 시켜줌
       rigid.velocity = Vector2.zero;
       gameObject.SetActive(false);
     }
+  }
+
+  void OnTriggerExit2D(Collider2D other)
+  {
+    // 플레이어의 영역밖이고, 근접무기인 경우는 제외
+    if (!other.CompareTag("Area") || per == -100) return;
+
+    // 총알을 제거함
+    gameObject.SetActive(false);
   }
 }
