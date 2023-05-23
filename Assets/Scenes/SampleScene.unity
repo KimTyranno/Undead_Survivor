@@ -23727,13 +23727,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPoint: []
   spawnData:
-  - spawnTime: 0.7
+  - spawnTime: 0.4
     spriteType: 0
-    health: 10
-    speed: 1.5
+    health: 15
+    speed: 1.8
   - spawnTime: 0.2
     spriteType: 1
-    health: 15
+    health: 23
     speed: 2.4
   levelTime: 0
 --- !u!1 &1663211419
