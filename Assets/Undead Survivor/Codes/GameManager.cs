@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
   public LevelUp uiLevelUp;
   public Result uiResult;
   public GameObject enemyCleaner;
+  public Transform uiJoy;
 
   [Header("# Game Control")]
   public float gameTime;
@@ -31,6 +32,9 @@ public class GameManager : MonoBehaviour
   void Awake()
   {
     instance = this;
+
+    // 프레임을 지정 (지정하지 않으면 기본적으로 30프레임)
+    Application.targetFrameRate = 60;
   }
 
   public void GameStart(int id)
@@ -99,6 +103,10 @@ public class GameManager : MonoBehaviour
   {
     SceneManager.LoadScene(0);
   }
+  public void GameQuit()
+  {
+    Application.Quit();
+  }
   void Update()
   {
     // 게임을 멈춘경우 Update() 계열을 사용하는 로직에도 멈추게한다.
@@ -134,10 +142,16 @@ public class GameManager : MonoBehaviour
     // 유니티의 시간속도 (배율임, 기본값은 1)
     // 0을주면 시간을 멈춘다.
     Time.timeScale = 0;
+
+    // 조이스틱을 안보이게함
+    uiJoy.localScale = Vector3.zero;
   }
   public void Resume()
   {
     isLive = true;
     Time.timeScale = 1;
+
+    // 조이스틱을 보이게함
+    uiJoy.localScale = Vector3.one;
   }
 }
